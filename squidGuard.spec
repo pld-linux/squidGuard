@@ -1,17 +1,16 @@
+%define		_sver 2001-06-14
 Summary:	Filter, redirector and access controller plugin for Squid. 
 Name:		squidGuard
-Version:	1.1.4
+Version:	1.2.0
 Release:	1
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
-Source0:	ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/%{name}-%{version}.tar.gz
-Source1:	http://ftp.ost.eltele.no/pub/www/proxy/squidGuard/contrib/blacklists.tar.gz
-Source2:	%{name}.conf
-Source3:	%{name}.cgi
-Source4:	%{name}-nulbanner.png
-#Patch0:		%{name}-paths.patch
+Source0:	ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/%{_sver}.%{name}-%{version}.tar.gz
+Source1:	%{name}.conf
+Patch0:		%{name}-db.patch
+Patch1:		%{name}-makefile.patch
 URL:		http://www.squidguard.org
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	db2-devel
@@ -48,25 +47,28 @@ Neither squidGuard nor Squid can be used to
   VBscript inside HTML
 
 %prep
-%setup -q
-#%patch0 -p1
+%setup -q -n %{name}-%{version}
+%patch0 -p1
+%patch1 -p1
 %build
 aclocal
 autoconf
 %configure \
-	--with-db-inc=%{_includedir}/db2
+	--with-sq-logdir=/var/log/%{name} \
+	--with-sg-config=%{_sysconfdir}/squidGuard.conf \
+	--with-sg-dbhome=%{_sysconfdir}/db
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/var/log/%{name}
-install -d $RPM_BUILD_ROOT/etc/squid
+install -d $RPM_BUILD_ROOT{/var/log/%{name},%{_bindir},%{_sysconfdir}}
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{advertising,bannedsource,banneddestination}
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{timerestriction,lansource,privilegedsource}
+
+install src/squidGuard $RPM_BUILD_ROOT%{_bindir}
 
 touch $RPM_BUILD_ROOT%{_sysconfdir}/db/advertising/{domains,urls}
 touch $RPM_BUILD_ROOT%{_sysconfdir}/db/banneddestination/{domains,urls,expressions}
@@ -77,26 +79,27 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/db/privilegedsource/ips
 
 touch $RPM_BUILD_ROOT/var/log/%{name}/%{name}.{log,error}
 
-tar zxf %{SOURCE1}   -C $RPM_BUILD_ROOT%{_sysconfdir}/db
-install %{SOURCE2}	$RPM_BUILD_ROOT%{_sysconfdir}
+tar zxf samples/dest/blacklists.tar.gz -C $RPM_BUILD_ROOT%{_sysconfdir}/db
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
-gzip -9nf README ANNOUNCE
+gzip -9nf README ANNOUNCE samples/*.{cgi,conf}
 
 %post
 echo "WARNING !!! WARNING !!! WARNING !!! WARNING !!!"
 echo ""
 echo "Modify the following line in the /etc/squid/squid.conf file:"
-echo "redirect_program /usr/bin/squidGuard -c /etc/squid/squidGuard.conf"
+echo "redirect_program /usr/bin/squidGuard -c /etc/squidGuard/squidGuard.conf"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/*.{html,gif,txt}
+%doc *.gz doc/*.{html,gif,txt} samples/*.gz
+%doc contrib/{squidGuardRobot/{squidGuardRobot,RobotUserAgent.pm},sgclean/sgclean,hostbyname/hostbyname}
 %attr(755,root,root) %{_bindir}/*
 %attr(750,root,squid) %dir %{_sysconfdir}
 %attr(640,root,squid) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/squidGuard.conf
-%attr(755,root,root) %{_sysconfdir}/db
+%{_sysconfdir}/db
 %attr(750,root,squid) %dir /var/log/%{name}
-%attr(644,squid,squid) %ghost /var/log/%{name}/*
+%attr(640,squid,squid) %ghost /var/log/%{name}/*
