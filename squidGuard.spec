@@ -120,7 +120,7 @@ touch $RPM_BUILD_ROOT/var/log/%{name}/%{name}.{log,error}
 
 tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_sysconfdir}/db
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
-rm -rf samples/dest/
+rm -rf samples/dest
 
 rm -f $(find $RPM_BUILD_ROOT%{_sysconfdir}/db -name *diff -type f)
 
@@ -142,7 +142,7 @@ if [ -f /etc/squid/squid.conf ]; then
 	grep -E -v "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
 		/etc/squid/squid.conf.tmp
 	mv -f /etc/squid/squid.conf.tmp /etc/squid/squid.conf
-	chown root.squid /etc/squid/squid.conf
+	chown root:squid /etc/squid/squid.conf
 	if [ -f /var/lock/subsys/squid ]; then
 		/etc/rc.d/init.d/squid reload 1>&2
 	fi
