@@ -1,128 +1,86 @@
-Summary: Filter, redirector and access controller plugin for Squid. 
-Name: squidGuard
-Version: 1.1.4
-Release: 12mdk
-License: GPL
-Group: System/Servers
-Source0:  ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/squidGuard-%{version}.tar.bz2
-Source1:  %{name}.conf.sample
-Source2:  blacklists-readme
-Source3:  %{name}.cgi
-Source4:  nulbanner.png
-URL: http://www.squidguard.org
-Patch0: squidGuard-%{version}.patch.bz2
-Patch1: squidGuard-%{version}.default_dir.patch.bz2
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
-BuildRequires: BerkeleyDB-devel = 2.7.7
-Requires: squid
+Summary:	Filter, redirector and access controller plugin for Squid. 
+Name:		squidGuard
+Version:	1.1.4
+Release:	1
+License:	GPL
+Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
+Group(pl):	Sieciowe/Serwery
+Source0:	ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/%{name}-%{version}.tar.gz
+Source1:	http://ftp.ost.eltele.no/pub/www/proxy/squidGuard/contrib/blacklists.tar.gz
+Source2:	%{name}.conf
+Source3:	%{name}.cgi
+Source4:	%{name}-nulbanner.png
+#Patch0:		%{name}-paths.patch
+URL:		http://www.squidguard.org
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	db2-devel
+Requires:	squid
+
+%define		_sysconfdir	/etc/%{name}
+%define		_datadir	%{_sysconfdir}
 
 %description
-SquidGuard is a combined filter, redirector and access controller plugin for
-Squid. It is free, very flexible, extremely fast, easily installed, portable.
-SquidGuard can be used to 
-- limit the web access for some users to a list of accepted/well known web
-servers and/or URLs only. 
-- block access to some listed or blacklisted web servers and/or URLs for
-some users. 
-- block access to URLs matching a list of regular expressions or words for
-some users. 
-- enforce the use of domainnames/prohibit the use of IP address in URLs. 
+SquidGuard is a combined filter, redirector and access controller
+plugin for Squid. It is free, very flexible, extremely fast, easily
+installed, portable. SquidGuard can be used to
+- limit the web access for some users to a list of accepted/well known
+  web servers and/or URLs only.
+- block access to some listed or blacklisted web servers and/or URLs
+  for some users.
+- block access to URLs matching a list of regular expressions or words
+  for some users.
+- enforce the use of domainnames/prohibit the use of IP address in
+  URLs.
 - redirect blocked URLs to an "intelligent" CGI based info page.
-- redirect unregistered user to a registration form. 
-- redirect popular downloads like Netscape, MSIE etc. to local copies. 
+- redirect unregistered user to a registration form.
+- redirect popular downloads like Netscape, MSIE etc. to local copies.
 - redirect banners to an empty GIF.
-- have different access rules based on time of day, day of the week, date
-etc. 
-- have different rules for different user groups. 
+- have different access rules based on time of day, day of the week,
+  date etc.
+- have different rules for different user groups.
 
 
-Neither squidGuard nor Squid can be used to 
+Neither squidGuard nor Squid can be used to
 
-- filter/censor/edit text inside documents 
-- filter/censor/edit embeded scripting languages 
-  like JavaScript or VBscript inside HTML 
-
+- filter/censor/edit text inside documents
+- filter/censor/edit embeded scripting languages like JavaScript or
+  VBscript inside HTML
 
 %prep
-
 %setup -q
-%patch0 -p1
-%patch1 -p1
-
+#%patch0 -p1
 %build
-
-CFLAGS="$RPM_OPT_FLAGS" 
+aclocal
+autoconf
 %configure \
-	--with-db-lib=%{_libdir}/BerkeleyDB \
-	--with-db-inc=%{_includedir}/BerkeleyDB \
+	--with-db-inc=%{_includedir}/db2
 
-make
-#make test
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-P=$RPM_BUILD_DIR/%{name}-%{version}
-Q=$RPM_BUILD_ROOT/%{_datadir}/%{name}-%{version}
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-%makeinstall
+install -d $RPM_BUILD_ROOT/var/log/%{name}
+install -d $RPM_BUILD_ROOT/etc/squid
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{advertising,bannedsource,banneddestination}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{timerestriction,lansource,privilegedsource}
 
-strip $RPM_BUILD_ROOT/%{_bindir}/* $RPM_BUILD_ROOT/%{_bindir}/*
+touch $RPM_BUILD_ROOT%{_sysconfdir}/db/advertising/{domains,urls}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/db/banneddestination/{domains,urls,expressions}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/db/bannedsource/ips
+touch $RPM_BUILD_ROOT%{_sysconfdir}/db/lansource/lan
+touch $RPM_BUILD_ROOT%{_sysconfdir}/db/timerestriction/lan
+touch $RPM_BUILD_ROOT%{_sysconfdir}/db/privilegedsource/ips
 
-mkdir -p $Q/{contrib,samples,log}
-
-# the mandrake default config directories
-mkdir -p $Q/db/{advertising,bannedsource,banneddestination}
-mkdir -p $Q/db/{timerestriction,lansource,privilegedsource}
-
-touch $Q/db/advertising/{domains,urls}
-touch $Q/db/banneddestination/{domains,urls,expressions}
-touch $Q/db/bannedsource/ips
-touch $Q/db/lansource/lan
-touch $Q/db/timerestriction/lan
-touch $Q/db/privilegedsource/ips
-
-# the blacklists default directories (Fabrice Pringent's one)
-mkdir -p $Q/db/{porn,adult,audio-video,forums,hacking,redirector}
-mkdir -p $Q/db/{warez,ads,aggressive,drugs,gambling,publicite,violence}
-touch $Q/db/porn/{domains,urls,expressions}
-touch $Q/db/adult/{domains,urls,expressions}
-touch $Q/db/audio-video/{domains,urls}
-touch $Q/db/forums/{domains,urls,expressions}
-touch $Q/db/hacking/{domains,urls}
-touch $Q/db/redirector/{domains,urls,expressions}
-touch $Q/db/warez/{domains,urls}
-touch $Q/db/ads/{domains,urls}
-touch $Q/db/aggressive/{domains,urls}
-touch $Q/db/drugs/{domains,urls}
-touch $Q/db/gambling/{domains,urls}
-touch $Q/db/publicite/{domains,urls,expressions}
-touch $Q/db/violence/{domains,urls,expressions}
-
-cd $P/samples/dest/
-tar xzf blacklists.tar.gz
-cp -af blacklists/* $Q/db
-cd -
-
-cp -a $P/contrib/hostbyname/hostbyname $Q/contrib/
-cp -a $P/contrib/sgclean/sgclean $Q/contrib/
-cp -a $P/contrib/squidGuardRobot/{squidGuardRobot,RobotUserAgent.pm} $Q/contrib/
-
-cp -a $P/samples/dest $Q/samples
-#cp -a $P/samples/*{.conf,.cgi} $Q/samples
-cp -a %{SOURCE2} $P/
-
-rm -rf $Q/test/test*.conf.*
-
-# default config files
-#log & error files
-mkdir -p $RPM_BUILD_ROOT/var/log/%{name}
 touch $RPM_BUILD_ROOT/var/log/%{name}/%{name}.{log,error}
 
-#conf file
-mkdir -p $RPM_BUILD_ROOT/etc/squid
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/squid/%{name}.conf.sample
-cp -af %{SOURCE3} %{SOURCE4} $Q/samples
+tar zxf %{SOURCE1}   -C $RPM_BUILD_ROOT%{_sysconfdir}/db
+install %{SOURCE2}	$RPM_BUILD_ROOT%{_sysconfdir}
+
+gzip -9nf README ANNOUNCE
 
 %post
 echo "WARNING !!! WARNING !!! WARNING !!! WARNING !!!"
@@ -134,64 +92,11 @@ echo "redirect_program /usr/bin/squidGuard -c /etc/squid/squidGuard.conf"
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
-%doc README ANNOUNCE GPL COPYING blacklists-readme doc/*.{html,gif,txt}
-%{_bindir}/*
-%{_datadir}/%{name}-%{version}/contrib/*
-%{_datadir}/%{name}-%{version}/samples/*.cgi
-%{_datadir}/%{name}-%{version}/samples/*.png
-%attr(0755,root,root) %{_datadir}/%{name}-%{version}/db/*
-%attr(-,squid,squid)/var/log/%{name}/*
-%config(noreplace) /etc/squid/*
-
-%changelog
-* Wed Jul 11 2001 Florin <florin@mandrakesoft.com> 1.1.4-12mdk
-- use the new sample configfile blacklist compliant, logs and data locations
-- patch the default logdir and confdir (default_dir.patch)
-- add the blacklists-readme file
-- add the blacklist sections and databases
-- remove the whole test thing from the spec file
-- add the nullbanner.png and the squidGuard.cgi modified
-
-* Fri Feb 16 2001 Florin <florin@mandrakesoft.com> 1.1.4-11mdk
-- add banneddestination/expressions
-
-* Tue Jan 30 2001 Florin <florin@mandrakesoft.com> 1.1.4-10mdk
-- add the timerestriction section
-
-* Tue Jan 30 2001 Florin <florin@mandrakesoft.com> 1.1.4-9mdk
-- the nulbanner and the cgi go now in the httpd-naat package
-- add /etc/squid/squidGuard.conf.sample
-- create the section files from the default config file
-
-* Wed Jan 24 2001 Florin <florin@mandrakesoft.com> 1.1.4-9mdk
-- add the nulbanner.gif in the /var/www-naat/icons
-
-* Mon Jan 08 2001 Florin <florin@mandrakesoft.com> 1.1.4-8mdk
-- the /var/log/%{name} dir is now owned by squid,squid
-
-* Fri Jan 06 2001 Florin <florin@mandrakesoft.com> 1.1.4-7mdk
-- recompile for firewall distrib
-- add log,error files in /var/log/%{name}
-- copy a sample of the config file in the /etc/squid/directory
-
-* Thu Nov 23 2000 Florin <florin@mandrakesoft.com> 1.1.4-6mdk
-- added urls (Lenny compliant ;)
-
-* Thu Nov 23 2000 Florin <florin@mandrakesoft.com> 1.1.4-5mdk
-- requires squid
-- buildrequires BerkeleyDB
-
-* Tue Nov 21 2000 Florin <florin@mandrakesoft.com> 1.1.4-4mdk
-- requires BerkeleyDB package, the new db2-2.7.7 package
-- comment the postun section
-
-* Mon Sep 18 2000 Florin <florin@mandrakesoft.com> 1.1.4-3mdk
-- set up a ready to use out of the box config
-
-* Fri Sep 15 2000 Florin <florin@mandrakesoft.com> 1.1.4-2mdk
-- added the test configuration and the Makefile
-- modifying the config files
-
-* Fri Sep 15 2000 Florin <florin@mandrakesoft.com> 1.1.4-1mdk
-- first attempt
+%defattr(644,root,root,755)
+%doc *.gz doc/*.{html,gif,txt}
+%attr(755,root,root) %{_bindir}/*
+%attr(750,root,squid) %dir %{_sysconfdir}
+%attr(640,root,squid) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/squidGuard.conf
+%attr(755,root,root) %{_sysconfdir}/db
+%attr(750,root,squid) %dir /var/log/%{name}
+%attr(644,squid,squid) %ghost /var/log/%{name}/*
