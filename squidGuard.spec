@@ -82,7 +82,7 @@ Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
 %{__aclocal}
 %{__autoconf}
 %configure \
-	--with-sq-logdir=/var/log/%{name} \
+	--with-sg-logdir=/var/log/%{name} \
 	--with-sg-config=%{_sysconfdir}/squidGuard.conf \
 	--with-sg-dbhome=%{_sysconfdir}/db
 
