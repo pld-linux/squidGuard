@@ -95,10 +95,9 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT{/var/log/%{name},%{_bindir},%{_sysconfdir}}
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{advertising,bannedsource,banneddestination}
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{timerestriction,lansource,privilegedsource}
+install -d $RPM_BUILD_ROOT{/var/log/%{name},%{_bindir}} \
+	$RPM_BUILD_ROOT%{_sysconfdir}/db/{advertising,bannedsource,banneddestination} \
+	$RPM_BUILD_ROOT%{_sysconfdir}/db/{timerestriction,lansource,privilegedsource}
 
 install src/squidGuard $RPM_BUILD_ROOT%{_bindir}
 
