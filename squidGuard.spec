@@ -124,7 +124,7 @@ fi
 
 %preun
 if [ -f /etc/squid/squid.conf ]; then
-    grep -E -v "^^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
+    grep -E -v "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
     /etc/squid/squid.conf.tmp
     mv -f /etc/squid/squid.conf.tmp /etc/squid/squid.conf
     if [ -f /var/lock/subsys/squid ]; then
