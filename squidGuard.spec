@@ -1,4 +1,4 @@
-%define		blist_ver 20021104
+%define		blist_ver 20041023
 %define		ver 1.2.0
 Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
@@ -12,7 +12,7 @@ Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/%{name}-%{ver}.tar.gz
 # Source0-md5:	c6e2e9112fdbda0602656f94c1ce31fd
 Source1:	%{name}.conf
 Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/contrib/blacklists-%{blist_ver}.tar.gz
-# Source2-md5:	34402d73be0c2dfcf65038ad897849e8
+# Source2-md5:	abbea06a368d81ad43b4f971dd673106
 Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
 URL:		http://www.squidguard.org/
