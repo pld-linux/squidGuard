@@ -13,14 +13,17 @@ Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/%{name}-%{ver}.tar.gz
 Source1:	%{name}.conf
 Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/contrib/blacklists-%{blist_ver}.tar.gz
 # Source2-md5:	b9812cb7210d6431d870beda1e35a0d7
-Patch0:		%{name}-db.patch
-Patch1:		%{name}-makefile.patch
+Patch0:		%{name}-makefile.patch
+Patch1:		%{name}-1.2.0-db4.patch
+Patch2:		%{name}-1.2.0-db41.patch
+Patch3:		%{name}-1.2.0-db42.patch
 URL:		http://www.squidguard.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	db3-devel
+BuildRequires:	db-devel
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
+BuildRequires:	flex
 Requires(post,preun):	grep
 Requires(post,preun):	squid
 Requires(preun):	fileutils
@@ -87,6 +90,8 @@ Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
 %setup -q -n %{name}-%{ver}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0
+%patch3 -p1
 
 %build
 rm -f missing
