@@ -80,7 +80,7 @@ Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
 
 %build
 aclocal
-autoconf
+%{__autoconf}
 %configure \
 	--with-sq-logdir=/var/log/%{name} \
 	--with-sg-config=%{_sysconfdir}/squidGuard.conf \
