@@ -5,7 +5,7 @@
  		db_version(&major, &minor, &patch);
  		ver = major + ((float) minor / 1000);
 -                if (ver > 2.007 && ver < 3.002)
-+                if (ver > 2.007 && ver < 3.001)
++                if (ver > 2.007 && ver < 3.0009)
  			exit (1);
  		exit (0);
  	}	
@@ -14,7 +14,7 @@
  		db_version(&major, &minor, &patch);
  		ver = major + ((float) minor / 1000);
 -                if (ver >= 3.002)
-+                if (ver >= 3.001)
++                if (ver >= 3.0009)
  			exit (0);
  		exit (1);
  	}	
