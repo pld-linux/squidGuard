@@ -8,7 +8,7 @@ License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
-Source0:	ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/%{_sver}.%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/development/%{_sver}.%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
