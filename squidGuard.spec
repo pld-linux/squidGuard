@@ -5,7 +5,7 @@ Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squi
 Name:		squidGuard
 Version:	%{ver}_%{blist_ver}
 Release:	2
-Epoch:		1
+Epoch:		2
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/%{name}-%{ver}.tar.gz
@@ -149,5 +149,5 @@ fi
 %attr(750,root,squid) %dir %{_sysconfdir}
 %attr(640,root,squid) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/squidGuard.conf
 %{_sysconfdir}/db
-%attr(750,root,squid) %dir /var/log/%{name}
+%attr(770,root,squid) %dir /var/log/%{name}
 %attr(640,squid,squid) %ghost /var/log/%{name}/*
