@@ -3,7 +3,7 @@ Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
 Name:		squidGuard
 Version:	1.2.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -14,9 +14,10 @@ Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
 URL:		http://www.squidguard.org
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Prereq:		grep
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	db2-devel
+BuildRequires:	db3-devel
 Requires:	squid
 
 %define		_sysconfdir	/etc/%{name}
@@ -116,10 +117,20 @@ gzip -9nf README ANNOUNCE samples/*.{cgi,conf}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-echo "WARNING !!! WARNING !!! WARNING !!! WARNING !!!"
-echo ""
-echo "Modify the following line in the /etc/squid/squid.conf file:"
-echo "redirect_program /usr/bin/squidGuard -c /etc/squidGuard/squidGuard.conf"
+if [ -f /etc/squid/squid.conf ] && \
+    ! grep -q "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf; then
+	echo "redirect_program /usr/bin/squidGuard -c /etc/squidGuard/squidGuard.conf" >>/etc/squid/squid.conf
+fi
+
+%preun
+if [ -f /etc/squid/squid.conf ]; then
+    grep -E -v "^^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
+    /etc/squid/squid.conf.tmp
+    mv -f /etc/squid/squid.conf.tmp /etc/squid/squid.conf
+    if [ -f /var/lock/subsys/squid ]; then
+	/etc/rc.d/init.d/squid reload 1>&2
+    fi
+fi
 
 %files
 %defattr(644,root,root,755)
