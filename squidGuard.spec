@@ -9,8 +9,10 @@ Epoch:		2
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/%{name}-%{ver}.tar.gz
+# Source0-md5:	c6e2e9112fdbda0602656f94c1ce31fd
 Source1:	%{name}.conf
 Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/contrib/blacklists-%{blist_ver}.tar.gz
+# Source2-md5:	34402d73be0c2dfcf65038ad897849e8
 Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
 URL:		http://www.squidguard.org/
