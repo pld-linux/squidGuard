@@ -36,53 +36,53 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 SquidGuard is a combined filter, redirector and access controller
 plugin for Squid. It is free, very flexible, extremely fast, easily
-installed, portable. SquidGuard can be used to
+installed, portable. SquidGuard can be used to:
 - limit the web access for some users to a list of accepted/well known
-  web servers and/or URLs only.
+  web servers and/or URLs only,
 - block access to some listed or blacklisted web servers and/or URLs
-  for some users.
+  for some users,
 - block access to URLs matching a list of regular expressions or words
-  for some users.
+  for some users,
 - enforce the use of domainnames/prohibit the use of IP address in
-  URLs.
-- redirect blocked URLs to an "intelligent" CGI based info page.
-- redirect unregistered user to a registration form.
-- redirect popular downloads like Netscape, MSIE etc. to local copies.
-- redirect banners to an empty GIF.
+  URLs,
+- redirect blocked URLs to an "intelligent" CGI based info page,
+- redirect unregistered user to a registration form,
+- redirect popular downloads like Netscape, MSIE etc. to local copies,
+- redirect banners to an empty GIF,
 - have different access rules based on time of day, day of the week,
-  date etc.
+  date etc,
 - have different rules for different user groups.
 
-Neither squidGuard nor Squid can be used to
-- filter/censor/edit text inside documents
+Neither squidGuard nor Squid can be used to:
+- filter/censor/edit text inside documents,
 - filter/censor/edit embeded scripting languages like JavaScript or
-  VBscript inside HTML
+  VBscript inside HTML.
 
 %description -l pl
 SquidGuard jest wtyczk± dla Squida bêd±c± po³±czonym filtrem,
 przekierowywaniem i kontrolerem dostêpu. Jest darmowy, elastyczny,
 bardzo szybki, ³atwo instalowalny, przeno¶ny. Mo¿e byæ u¿ywany do:
 - ograniczenia dostêpu do WWW dla niektórych u¿ytkowników na podstawie
-  listy akceptowanych serwerów lub URL-i
+  listy akceptowanych serwerów lub URL-i,
 - blokowania dostêpu do niektórych serwerów lub URL-i dla niektórych
-  u¿ytkowników
+  u¿ytkowników,
 - blokowania dostêpu do URL na podstawie wyra¿eñ regularnych lub
-  s³ów dla niektórych u¿ytkowników
+  s³ów dla niektórych u¿ytkowników,
 - narzucenia u¿ywania nazw domen/zabronienia u¿ywania adresów IP w
-  URL-ach
+  URL-ach,
 - przekierowania zablokowanych URL-i na "inteligentn±" stronê
-  informacyjn± w CGI
+  informacyjn± w CGI,
 - przekierowania niezarejestrowanych u¿ytkowników do formularza
-  rejestracyjnego
+  rejestracyjnego,
 - przekierowania ¶ci±gania popularnego oprogramowania (Netscape, MSIE)
-  na lokalne kopie
-- przekierowania bannerów na puste GIF-y
+  na lokalne kopie,
+- przekierowania bannerów na puste GIF-y,
 - uzale¿nienia regu³ dostêpu w zale¿no¶ci od pory dnia, dnia tygodnia,
-  daty itp.
+  daty itp.,
 - ró¿nych regu³ dostêpu dla ró¿nych grup u¿ytkowników.
 
 Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
-- filtrowania/cenzurowania/edycji tekstu wewn±trz dokumentu
+- filtrowania/cenzurowania/edycji tekstu wewn±trz dokumentu,
 - filtrowania/cenzurowania/edycji osadzonych w HTML skryptów
   (JavaScript, VBscript...)
 
