@@ -1,18 +1,20 @@
-%define		_sver 2001-06-14
+%define		blist_ver 20021104
+%define		ver 1.2.0
 Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
 Name:		squidGuard
-Version:	1.2.0
-Release:	2
+Version:	%{ver}_%{blist_ver}
+Release:	1
+Epoch:		1
 License:	GPL
 Group:		Networking/Daemons
-Source0:	ftp://ftp.ost.eltele.no/pub/www/proxy/squidGuard/development/%{_sver}.%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/%{name}-%{ver}.tar.gz
 Source1:	%{name}.conf
+Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/contrib/blacklists-%{blist_ver}.tar.gz
 Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
 URL:		http://www.squidguard.org
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Prereq:		grep
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	db3-devel
@@ -74,11 +76,14 @@ Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
   (JavaScript, VBscript...)
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{ver}
 %patch0 -p1
 %patch1 -p1
 
 %build
+rm -f missing
+%{__libtoolize}
+%{__gettextize}
 %{__aclocal}
 %{__autoconf}
 %configure \
@@ -106,10 +111,11 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/db/privilegedsource/ips
 
 touch $RPM_BUILD_ROOT/var/log/%{name}/%{name}.{log,error}
 
-tar zxf samples/dest/blacklists.tar.gz -C $RPM_BUILD_ROOT%{_sysconfdir}/db
+tar zxf %{SOURCE2} -C $RPM_BUILD_ROOT%{_sysconfdir}/db
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
+rm -rf samples/dest/
 
-gzip -9nf README ANNOUNCE samples/*.{cgi,conf}
+rm -f $(find $RPM_BUILD_ROOT%{_sysconfdir}/db -name *diff -type f)
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -135,7 +141,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/*.{html,gif,txt} samples/*.gz
+%doc README ANNOUNCE samples/* doc/*.{html,gif,txt}
 %doc contrib/{squidGuardRobot/{squidGuardRobot,RobotUserAgent.pm},sgclean/sgclean,hostbyname/hostbyname}
 %attr(755,root,root) %{_bindir}/*
 %attr(750,root,squid) %dir %{_sysconfdir}
