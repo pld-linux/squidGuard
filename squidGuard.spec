@@ -1,5 +1,6 @@
 %define		_sver 2001-06-14
-Summary:	Filter, redirector and access controller plugin for Squid. 
+Summary:	Filter, redirector and access controller plugin for Squid
+Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
 Name:		squidGuard
 Version:	1.2.0
 Release:	1
@@ -13,6 +14,8 @@ Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
 URL:		http://www.squidguard.org
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	db2-devel
 Requires:	squid
 
@@ -39,17 +42,43 @@ installed, portable. SquidGuard can be used to
   date etc.
 - have different rules for different user groups.
 
-
 Neither squidGuard nor Squid can be used to
-
 - filter/censor/edit text inside documents
 - filter/censor/edit embeded scripting languages like JavaScript or
   VBscript inside HTML
+
+%description -l pl
+SquidGuard jest wtyczk± dla Squida z po³±czonym filtrem,
+przekierowywaniem i kontrolerem dostêpu. Jest darmowy, elastyczny,
+bardzo szybki, ³atwo instalowalny, przeno¶ny. Mo¿e byæ u¿ywany do:
+- ograniczenia dostêpu do WWW dla niektórych u¿ytkowników na podstawie
+  listy akceptowanych serwerów lub URL
+- blokowania dostêpu do niektórych serwerów lub URL dla niektórych
+  u¿ytkowników
+- blokowania dostêp do URL na podstawie wyra¿eñ regularnych lub s³ów
+  dla niektórych u¿ytkowników
+- narzucenia u¿ywanie nazw domen/zabronienia u¿ywania adresów IP w URL
+- przekierowania zablokowanych URL na "inteligentn±" stronê
+  informacyjn± w CGI
+- przekierowania niezarejestrowanych u¿ytkowników do formularza
+  rejestracyjnego
+- przekierowania ¶ci±gania popularnego oprogramowania (Netscape, MSIE)
+  na lokalne kopie
+- przekierowania bannerów na puste GIF-y
+- uzale¿nienia regu³ dostêpu w zale¿no¶ci od pory dnia, dnia tygodnia,
+  daty itp.
+- ró¿nych regu³ dostêpu dla ró¿nych grup u¿ytkowników.
+
+Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
+- filtrowania/cenzorowania/edycji tekstu wewn±trz dokumentu
+- filtrowania/cenzorowania/edycji osadzonych w HTML skryptów
+  (JavaScript, VBscript...)
 
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
 %patch1 -p1
+
 %build
 aclocal
 autoconf
@@ -62,7 +91,6 @@ autoconf
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 
 install -d $RPM_BUILD_ROOT{/var/log/%{name},%{_bindir},%{_sysconfdir}}
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/db/{advertising,bannedsource,banneddestination}
@@ -84,14 +112,14 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}
 
 gzip -9nf README ANNOUNCE samples/*.{cgi,conf}
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 echo "WARNING !!! WARNING !!! WARNING !!! WARNING !!!"
 echo ""
 echo "Modify the following line in the /etc/squid/squid.conf file:"
 echo "redirect_program /usr/bin/squidGuard -c /etc/squidGuard/squidGuard.conf"
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
