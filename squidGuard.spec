@@ -4,7 +4,7 @@ Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
 Name:		squidGuard
 Version:	%{ver}_%{blist_ver}
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		Networking/Daemons
@@ -89,7 +89,8 @@ rm -f missing
 %configure \
 	--with-sg-logdir=/var/log/%{name} \
 	--with-sg-config=%{_sysconfdir}/squidGuard.conf \
-	--with-sg-dbhome=%{_sysconfdir}/db
+	--with-sg-dbhome=%{_sysconfdir}/db \
+	--with-db=%{_prefix}
 
 %{__make}
 
