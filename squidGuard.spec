@@ -18,6 +18,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	db3-devel
+BuildRequires:	gettext-devel
+BuildRequires:	libtool
 Requires:	squid
 
 %define		_sysconfdir	/etc/%{name}
