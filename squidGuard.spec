@@ -56,17 +56,18 @@ Neither squidGuard nor Squid can be used to
   VBscript inside HTML
 
 %description -l pl
-SquidGuard jest wtyczk± dla Squida z po³±czonym filtrem,
+SquidGuard jest wtyczk± dla Squida bêd±c± po³±czonym filtrem,
 przekierowywaniem i kontrolerem dostêpu. Jest darmowy, elastyczny,
 bardzo szybki, ³atwo instalowalny, przeno¶ny. Mo¿e byæ u¿ywany do:
 - ograniczenia dostêpu do WWW dla niektórych u¿ytkowników na podstawie
-  listy akceptowanych serwerów lub URL
-- blokowania dostêpu do niektórych serwerów lub URL dla niektórych
+  listy akceptowanych serwerów lub URL-i
+- blokowania dostêpu do niektórych serwerów lub URL-i dla niektórych
   u¿ytkowników
-- blokowania dostêp do URL na podstawie wyra¿eñ regularnych lub s³ów
-  dla niektórych u¿ytkowników
-- narzucenia u¿ywanie nazw domen/zabronienia u¿ywania adresów IP w URL
-- przekierowania zablokowanych URL na "inteligentn±" stronê
+- blokowania dostêpu do URL na podstawie wyra¿eñ regularnych lub
+  s³ów dla niektórych u¿ytkowników
+- narzucenia u¿ywania nazw domen/zabronienia u¿ywania adresów IP w
+  URL-ach
+- przekierowania zablokowanych URL-i na "inteligentn±" stronê
   informacyjn± w CGI
 - przekierowania niezarejestrowanych u¿ytkowników do formularza
   rejestracyjnego
