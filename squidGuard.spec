@@ -79,8 +79,8 @@ bardzo szybki, ³atwo instalowalny, przeno¶ny. Mo¿e byæ u¿ywany do:
 - ró¿nych regu³ dostêpu dla ró¿nych grup u¿ytkowników.
 
 Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
-- filtrowania/cenzorowania/edycji tekstu wewn±trz dokumentu
-- filtrowania/cenzorowania/edycji osadzonych w HTML skryptów
+- filtrowania/cenzurowania/edycji tekstu wewn±trz dokumentu
+- filtrowania/cenzurowania/edycji osadzonych w HTML skryptów
   (JavaScript, VBscript...)
 
 %prep
