@@ -1,0 +1,20 @@
+--- squidGuard-1.2.0/configure.in.orig	Wed Jun  6 08:42:20 2001
++++ squidGuard-1.2.0/configure.in	Tue Jul 24 16:54:09 2001
+@@ -154,7 +154,7 @@
+ 		float ver;
+ 		db_version(&major, &minor, &patch);
+ 		ver = major + ((float) minor / 1000);
+-                if (ver > 2.007 && ver < 3.002)
++                if (ver > 2.007 && ver < 3.001)
+ 			exit (1);
+ 		exit (0);
+ 	}	
+@@ -180,7 +180,7 @@
+ 		float ver;
+ 		db_version(&major, &minor, &patch);
+ 		ver = major + ((float) minor / 1000);
+-                if (ver >= 3.002)
++                if (ver >= 3.001)
+ 			exit (0);
+ 		exit (1);
+ 	}	
