@@ -79,7 +79,7 @@ Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
 %patch1 -p1
 
 %build
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure \
 	--with-sq-logdir=/var/log/%{name} \
