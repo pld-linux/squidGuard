@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 if [ -f /etc/squid/squid.conf ] && \
     ! grep -q "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf; then
 	echo "redirect_program /usr/bin/squidGuard -c /etc/squidGuard/squidGuard.conf" >>/etc/squid/squid.conf
+	if [ -f /var/lock/subsys/squid ]; then
+		/etc/rc.d/init.d/squid reload 1>&2
+	fi
 fi
 
 %preun
