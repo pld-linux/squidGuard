@@ -13,14 +13,17 @@ Source1:	%{name}.conf
 Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/contrib/blacklists-%{blist_ver}.tar.gz
 Patch0:		%{name}-db.patch
 Patch1:		%{name}-makefile.patch
-URL:		http://www.squidguard.org
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+URL:		http://www.squidguard.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	db3-devel
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
+Requires(post,preun):	grep
+Requires(post,preun):	squid
+Requires(preun):	fileutils
 Requires:	squid
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc/%{name}
 %define		_datadir	%{_sysconfdir}
@@ -133,12 +136,14 @@ fi
 
 %preun
 if [ -f /etc/squid/squid.conf ]; then
-    grep -E -v "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
-    /etc/squid/squid.conf.tmp
-    mv -f /etc/squid/squid.conf.tmp /etc/squid/squid.conf
-    if [ -f /var/lock/subsys/squid ]; then
-	/etc/rc.d/init.d/squid reload 1>&2
-    fi
+	umask 027
+	grep -E -v "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
+		/etc/squid/squid.conf.tmp
+	mv -f /etc/squid/squid.conf.tmp /etc/squid/squid.conf
+	chown root.squid /etc/squid/squid.conf
+	if [ -f /var/lock/subsys/squid ]; then
+		/etc/rc.d/init.d/squid reload 1>&2
+	fi
 fi
 
 %files
