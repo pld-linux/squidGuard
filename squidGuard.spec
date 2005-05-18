@@ -8,10 +8,10 @@ Release:	3
 Epoch:		2
 License:	GPL
 Group:		Networking/Daemons
-Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/%{name}-%{ver}.tar.gz
+Source0:	ftp://ftp.teledanmark.no/pub/www/proxy/squidGuard/%{name}-%{ver}.tar.gz
 # Source0-md5:	c6e2e9112fdbda0602656f94c1ce31fd
 Source1:	%{name}.conf
-Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/%{name}/contrib/blacklists-%{blist_ver}.tar.gz
+Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/squidGuard/contrib/blacklists-%{blist_ver}.tar.gz
 # Source2-md5:	66ef3586b48937d41d3446396e8c827b
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-1.2.0-db4.patch
@@ -94,7 +94,6 @@ Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
 %patch3 -p1
 
 %build
-rm -f missing
 %{__libtoolize}
 %{__gettextize}
 %{__aclocal}
@@ -160,7 +159,7 @@ fi
 %doc contrib/{squidGuardRobot/{squidGuardRobot,RobotUserAgent.pm},sgclean/sgclean,hostbyname/hostbyname}
 %attr(755,root,root) %{_bindir}/*
 %attr(750,root,squid) %dir %{_sysconfdir}
-%attr(640,root,squid) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/squidGuard.conf
+%attr(640,root,squid) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/squidGuard.conf
 %{_sysconfdir}/db
 %attr(770,root,squid) %dir /var/log/%{name}
 %attr(640,squid,squid) %ghost /var/log/%{name}/*
