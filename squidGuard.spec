@@ -4,7 +4,7 @@ Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
 Name:		squidGuard
 Version:	%{ver}_%{blist_ver}
-Release:	1
+Release:	2
 Epoch:		2
 License:	GPL
 Group:		Networking/Daemons
@@ -21,12 +21,13 @@ URL:		http://www.squidguard.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	db-devel
+BuildRequires:	flex
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
-BuildRequires:	flex
-Requires(post,preun):	grep
+BuildRequires:	rpmbuild(macros) >= 1.268
+Requires(post):	grep
 Requires(post,preun):	squid
-Requires(preun):	fileutils
+Requires(postun):	sed >= 4.0
 Requires:	squid
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,8 +67,8 @@ bardzo szybki, ³atwo instalowalny, przeno¶ny. Mo¿e byæ u¿ywany do:
   listy akceptowanych serwerów lub URL-i,
 - blokowania dostêpu do niektórych serwerów lub URL-i dla niektórych
   u¿ytkowników,
-- blokowania dostêpu do URL na podstawie wyra¿eñ regularnych lub
-  s³ów dla niektórych u¿ytkowników,
+- blokowania dostêpu do URL na podstawie wyra¿eñ regularnych lub s³ów
+  dla niektórych u¿ytkowników,
 - narzucenia u¿ywania nazw domen/zabronienia u¿ywania adresów IP w
   URL-ach,
 - przekierowania zablokowanych URL-i na "inteligentn±" stronê
@@ -135,22 +136,15 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ -f /etc/squid/squid.conf ] && \
 	! grep -q "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf; then
-		echo "redirect_program /usr/bin/squidGuard -c /etc/squidGuard/squidGuard.conf" >>/etc/squid/squid.conf
-		if [ -f /var/lock/subsys/squid ]; then
-			/etc/rc.d/init.d/squid reload 1>&2
-		fi
+	echo "redirect_program %{_bindir}/squidGuard -c /etc/squidGuard/squidGuard.conf" >>/etc/squid/squid.conf
+	%service -q squid reload
 fi
 
 %preun
 if [ -f /etc/squid/squid.conf ]; then
-	umask 027
-	grep -E -v "^redirect_program.*%{_bindir}/%{name}" /etc/squid/squid.conf > \
-		/etc/squid/squid.conf.tmp
-	mv -f /etc/squid/squid.conf.tmp /etc/squid/squid.conf
-	chown root:squid /etc/squid/squid.conf
-	if [ -f /var/lock/subsys/squid ]; then
-		/etc/rc.d/init.d/squid reload 1>&2
-	fi
+	%{__sed} -i -e /^redirect_program.*%(echo %{_bindir}/%{name} | sed -e 's,/,\\/,g')/d' /etc/squid/squid.conf
+	#' spec.vim sucks
+	%service -q squid reload
 fi
 
 %files
