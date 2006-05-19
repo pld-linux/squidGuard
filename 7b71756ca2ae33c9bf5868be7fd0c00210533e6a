@@ -1,0 +1,6 @@
+- added Prereq: grep
+- s/BuildRequires:  db2-devel/BuildRequires:  db3-devel/
+- new %post with automatic squid reconfiguration
+- added %preun with automatic squid reconfiguration
+- release 2
+- i think that logrotate script is needed too
