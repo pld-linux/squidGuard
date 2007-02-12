@@ -1,7 +1,7 @@
 %define		blist_ver 20050604
 %define		ver 1.2.0
 Summary:	Filter, redirector and access controller plugin for Squid
-Summary(pl):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostêpu dla Squida
+Summary(pl.UTF-8):   Wtyczka z filtrem, przekierowywaniem i kontrolerem dostÄ™pu dla Squida
 Name:		squidGuard
 Version:	%{ver}_%{blist_ver}
 Release:	2
@@ -59,32 +59,32 @@ Neither squidGuard nor Squid can be used to:
 - filter/censor/edit embeded scripting languages like JavaScript or
   VBscript inside HTML.
 
-%description -l pl
-SquidGuard jest wtyczk± dla Squida bêd±c± po³±czonym filtrem,
-przekierowywaniem i kontrolerem dostêpu. Jest darmowy, elastyczny,
-bardzo szybki, ³atwo instalowalny, przeno¶ny. Mo¿e byæ u¿ywany do:
-- ograniczenia dostêpu do WWW dla niektórych u¿ytkowników na podstawie
-  listy akceptowanych serwerów lub URL-i,
-- blokowania dostêpu do niektórych serwerów lub URL-i dla niektórych
-  u¿ytkowników,
-- blokowania dostêpu do URL na podstawie wyra¿eñ regularnych lub s³ów
-  dla niektórych u¿ytkowników,
-- narzucenia u¿ywania nazw domen/zabronienia u¿ywania adresów IP w
+%description -l pl.UTF-8
+SquidGuard jest wtyczkÄ… dla Squida bÄ™dÄ…cÄ… poÅ‚Ä…czonym filtrem,
+przekierowywaniem i kontrolerem dostÄ™pu. Jest darmowy, elastyczny,
+bardzo szybki, Å‚atwo instalowalny, przenoÅ›ny. MoÅ¼e byÄ‡ uÅ¼ywany do:
+- ograniczenia dostÄ™pu do WWW dla niektÃ³rych uÅ¼ytkownikÃ³w na podstawie
+  listy akceptowanych serwerÃ³w lub URL-i,
+- blokowania dostÄ™pu do niektÃ³rych serwerÃ³w lub URL-i dla niektÃ³rych
+  uÅ¼ytkownikÃ³w,
+- blokowania dostÄ™pu do URL na podstawie wyraÅ¼eÅ„ regularnych lub sÅ‚Ã³w
+  dla niektÃ³rych uÅ¼ytkownikÃ³w,
+- narzucenia uÅ¼ywania nazw domen/zabronienia uÅ¼ywania adresÃ³w IP w
   URL-ach,
-- przekierowania zablokowanych URL-i na "inteligentn±" stronê
-  informacyjn± w CGI,
-- przekierowania niezarejestrowanych u¿ytkowników do formularza
+- przekierowania zablokowanych URL-i na "inteligentnÄ…" stronÄ™
+  informacyjnÄ… w CGI,
+- przekierowania niezarejestrowanych uÅ¼ytkownikÃ³w do formularza
   rejestracyjnego,
-- przekierowania ¶ci±gania popularnego oprogramowania (Netscape, MSIE)
+- przekierowania Å›ciÄ…gania popularnego oprogramowania (Netscape, MSIE)
   na lokalne kopie,
-- przekierowania bannerów na puste GIF-y,
-- uzale¿nienia regu³ dostêpu w zale¿no¶ci od pory dnia, dnia tygodnia,
+- przekierowania bannerÃ³w na puste GIF-y,
+- uzaleÅ¼nienia reguÅ‚ dostÄ™pu w zaleÅ¼noÅ›ci od pory dnia, dnia tygodnia,
   daty itp.,
-- ró¿nych regu³ dostêpu dla ró¿nych grup u¿ytkowników.
+- rÃ³Å¼nych reguÅ‚ dostÄ™pu dla rÃ³Å¼nych grup uÅ¼ytkownikÃ³w.
 
-Natomiast ani squidGuard ani Squid nie mo¿e byæ u¿yty do:
-- filtrowania/cenzurowania/edycji tekstu wewn±trz dokumentu,
-- filtrowania/cenzurowania/edycji osadzonych w HTML skryptów
+Natomiast ani squidGuard ani Squid nie moÅ¼e byÄ‡ uÅ¼yty do:
+- filtrowania/cenzurowania/edycji tekstu wewnÄ…trz dokumentu,
+- filtrowania/cenzurowania/edycji osadzonych w HTML skryptÃ³w
   (JavaScript, VBscript...)
 
 %prep
