@@ -4,12 +4,12 @@ Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl.UTF-8):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostępu dla Squida
 Name:		squidGuard
 Version:	%{ver}_%{blist_ver}
-Release:	0.beta.1
+Release:	1
 Epoch:		2
 License:	GPL
 Group:		Networking/Daemons
-Source0:	http://squidguard.org/Downloads/Devel/squidGuard.%{ver}-beta.tar.gz
-# Source0-md5:	2bfa1886c659e754e1650b584bd6590e
+Source0:	http://squidguard.org/Downloads/squidGuard-%{ver}.tar.gz
+# Source0-md5:	de834150998c1386c30feae196f16b06
 Source1:	%{name}.conf
 Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/squidGuard/contrib/blacklists-%{blist_ver}.tar.gz
 # Source2-md5:	7ebb53ea33459c14cbc850cd73405915
@@ -88,7 +88,7 @@ Natomiast ani squidGuard ani Squid nie może być użyty do:
   (JavaScript, VBscript...)
 
 %prep
-%setup -q -n %{name}.%{ver}-beta
+%setup -q -n %{name}-%{ver}
 #%patch0 -p1
 #%patch1 -p1
 %patch2 -p0
