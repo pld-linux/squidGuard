@@ -13,10 +13,9 @@ Source0:	http://squidguard.org/Downloads/squidGuard-%{ver}.tar.gz
 Source1:	%{name}.conf
 Source2:	ftp://ftp.teledanmark.no/pub/www/proxy/squidGuard/contrib/blacklists-%{blist_ver}.tar.gz
 # Source2-md5:	7ebb53ea33459c14cbc850cd73405915
-Patch0:		%{name}-makefile.patch
-Patch1:		%{name}-1.2.0-db4.patch
-Patch2:		%{name}-1.2.0-db41.patch
-Patch3:		%{name}-1.2.0-db42.patch
+# http://www.squidguard.org/Downloads/Patches/1.4/squidGuard-1.4-patch-20091015.tar.gz
+Patch0:		%{name}-long-urls-buffer-overflow.patch
+Patch1:		%{name}-url-bypass.patch
 URL:		http://www.squidguard.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -89,10 +88,8 @@ Natomiast ani squidGuard ani Squid nie może być użyty do:
 
 %prep
 %setup -q -n %{name}-%{ver}
-#%patch0 -p1
-#%patch1 -p1
-%patch2 -p0
-#%patch3 -p1
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
