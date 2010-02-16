@@ -1,0 +1,24 @@
+based on http://www.squidguard.org/Downloads/Patches/1.4/squidGuard-1.4-patch-20091019.tar.gz
+
+--- a/src/sgDiv.c.in	2008-07-14 18:02:43.000000000 +0200
++++ b/src/sgDiv.c.in	2009-10-19 21:26:04.000000000 +0200
+@@ -745,7 +745,7 @@
+       p++;
+       break;
+     case 'u': /* Requested URL */
+-      strcat(buf, req->orig);
++      strncat(buf, req->orig, 2048);
+       p++;
+       break;
+     default:
+--- a/src/sg.h.in	2007-11-16 17:58:32.000000000 +0100
++++ b/src/sg.h.in	2009-10-19 21:25:23.000000000 +0200
+@@ -73,7 +73,7 @@
+ #define REQUEST_TYPE_REDIRECT   2
+ #define REQUEST_TYPE_PASS       3
+ 
+-#define MAX_BUF 4096
++#define MAX_BUF 12288
+ 
+ #define DEFAULT_LOGFILE "squidGuard.log"
+ #define WARNING_LOGFILE "squidGuard.log"
