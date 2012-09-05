@@ -4,7 +4,7 @@ Summary:	Filter, redirector and access controller plugin for Squid
 Summary(pl.UTF-8):	Wtyczka z filtrem, przekierowywaniem i kontrolerem dostępu dla Squida
 Name:		squidGuard
 Version:	%{ver}_%{blist_ver}
-Release:	3
+Release:	4
 Epoch:		2
 License:	GPL
 Group:		Networking/Daemons
